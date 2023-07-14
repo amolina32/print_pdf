@@ -9,157 +9,166 @@ app.get('/generate-pdf', async (req, res) => {
   // HTML básico que muestra la hora actual
   const currentTime = new Date().toLocaleString();
   const html = `
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 90%;
-            max-height: 50%;
-            background-color: #FFFFFF;
-            border: 1px solid #D7DBDD;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            border-radius: 10px;
-        }
-        .logo {
-            max-width: 200px;
-            max-height: 200px;
-        }
-        .image-container {
-              position: relative;
-              display: inline-block;
-        }
-        .number-overlay {
-              position: absolute;
-              top: 10px;
-              left: 10px;
-              font-size: 20px;
-              color: white;
-        }
-        .message-box {
-            background-color: #555555;
-            color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        .info-box {
-            background-color: #FFFFFF;
-            border: 1px solid #D7DBDD;
-            border-radius: 10px;
-            padding: 10px;
-            margin-top: 10px;
-        }
-        .payment-box {
-            background-color: #005380;
-            color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        .payment-details {
-            border: 1px solid #D7DBDD;
-            border-radius: 5px;
-            padding: 5px;
-            margin-top: 5px;
-        }
-        .v-line {
-            background-color: #D7DBDD;
-            position: relative;
-            height: 5vh;
-            width: 0.1vw;
-            border-width: 0;
-            color: #D7DBDD;
-            margin-left: auto;
-            argin-right: auto;
-            align-items: center;
-            text-align: center;
-            align-items: center;
-        }
-</style>
-</head>
-<body>
-<div class="container">
-<table style="width:100%;" border="0">
-<tbody>
-<tr>
-<td style="width:50%;">
-<div><img style="display:block; margin-left:auto; margin-right:auto;" src="<#LOGO#>" width="180" height="120"></div>
-</td>
-</tr>
-<tr>
-<td style="width:100%;">
-<img style="display:block; margin-left:auto; margin-right:auto; border-radius:5px;" src="<#LLEGO_TU_FACTURA#>" width="550" height="70"></td>
-</tr>
-</tbody>
-</table>
-<table class="info-box">
-<tbody >
-<tr>
-<td></td>
-<td></td>
-<td>
-<p style="text-align:center;"><b>Cuenta contrato: <#CUENTA#></b></p>
-</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><img style="display:block; margin-left:auto; margin-right:auto;" src="<#IMG_FECHA#>" width="50" height="50"></td>
-<td style="width:10px;"><div class="v-line"></div></td>
-<td><img style="display:block; margin-left:auto; margin-right:auto;" src="<#IMG_VALORSERV#>" width="50" height="50"></td>
-<td style="width:10px;"><div class="v-line"></div></td>
-<td><img style="display:block; margin-left:auto; margin-right:auto;" src="<#IMG_FECHALIM#>" width="50" height="50"></td>
-</tr>
-<tr style="text-align:center;">
-<td><b>Mes Facturado:</b></td>
-<td style="width:10px;"><div class="v-line"></div></td>
-<td><b>Valor del servicio:</b></td>
-<td style="width:10px;"><div class="v-line"></div></td>
-<td><b>Fecha límite de pago:</b></td>
-</tr>
-<tr style="text-align:center;">
-<td><#MES#></td>
-<td>
-</td>
-<td><#VALOR#></td>
-<td>
-</td>
-<td><#FECHA_PAGO#></td>
-</tr>
-</tbody>
-</table>
-<table style="width:100%; border=0; padding:20px;">
-<tbody>
-<tr>
-<td><img style="display:block; margin-left:auto; margin-right:auto; border-radius:5px;" src="<#PAGA_EN_SUIGIENTES_CANALES#>" width="500" height="80"></td>
-</tr>
-<tr>
-<td>
-<img class="info-box" src="<#FORMAS_PAGO#>" width="700" height="80">
-</td>
-</tr>
-<tr style="text-align:center; color:#008080;">
-<td><p>o ingresa a: <a href="<#AvalPayCenter#>"><b>AvalPayCenter</b></a></p></td>
-</tr>
-<tr style="text-align:center;">
-<td>Enviános el soporte de pago al correo de contacto</td>
-</tr>
-<tr style="text-align:center; color:#008080;">
-<td><b><#vCorreoAtencionCliente#> o al <#vWhatsApp#></b></td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Factura de Servicios de Telefonía</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+      body {
+        padding: 20px;
+      }
+  
+      .header {
+        background-color: #337ab7;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
+  
+      .header h1 {
+        margin: 0;
+        font-size: 28px;
+      }
+  
+      .customer-info p {
+        margin: 0;
+        color: #555;
+        font-size: 16px;
+      }
+  
+      .invoice-details {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+      }
+  
+      .invoice-details div {
+        flex: 1;
+      }
+  
+      .invoice-details div:first-child {
+        margin-right: 20px;
+      }
+  
+      .invoice-details h3 {
+        margin: 0;
+        color: #333;
+        font-size: 18px;
+      }
+  
+      .barcode {
+        text-align: center;
+        margin-top: 20px;
+      }
+  
+      .qr-code {
+        text-align: center;
+        margin-top: 20px;
+      }
+  
+      .table {
+        margin-top: 40px;
+      }
+  
+      .total {
+        margin-top: 40px;
+        text-align: right;
+        color: #333;
+        font-weight: bold;
+      }
+  
+      .footer {
+        margin-top: 60px;
+        text-align: center;
+        color: #777;
+      }
+  
+      .footer p {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Factura de Servicios de Telefonía</h1>
+      </div>
+  
+      <div class="row">
+        <div class="col-md-6">
+          <div class="customer-info">
+            <p>Nombre del cliente: John Doe</p>
+            <p>Dirección: Calle Principal 123</p>
+            <p>Ciudad: Ciudad Ejemplo</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="invoice-details">
+            <div>
+              <h3>Detalles de la factura</h3>
+              <p>Número de factura: 12345</p>
+              <p>Fecha: 15 de julio de 2023</p>
+            </div>
+            <div>
+              <img src="logo.png" alt="Logo de la empresa" class="img-fluid">
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="barcode">
+        <svg id="barcode"></svg>
+      </div>
+  <div id="qrcode"></div>
+      <div class="qr-code">
+        <div id="qrcode"></div>
+      </div>
+  
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Descripción</th>
+            <th>Cantidad</th>
+            <th>Precio unitario</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Energía consumida</td>
+            <td>100 kWh</td>
+            <td>$0.15</td>
+            <td>$15.00</td>
+          </tr>
+          <tr>
+            <td>Cargo fijo</td>
+            <td>1</td>
+            <td>$10.00</td>
+            <td>$10.00</td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <div class="total">
+        <p>Total a pagar: $25.00</p>
+      </div>
+  
+      <div class="footer">
+        <p>© 2023 Nombre de la Empresa. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-js-package@1.0.4/qrcode.min.js"></script>
+    <script>
+      JsBarcode("#barcode", "12345");
+      new QRCode(document.getElementById("qrcode"), "https://www.oracle.com/co/application-development/visual-builder-studio/");
+  
+    </script>
+  </body>
+  </html>
+  
   `;
 
   // Iniciamos Puppeteer con el nuevo modo Headless
