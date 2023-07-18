@@ -1,5 +1,7 @@
 # print_pdf
 ## to run the project run 
+npm install
+
 node server.js
 
 ## to run in a docker container run
