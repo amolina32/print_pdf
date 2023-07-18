@@ -17,7 +17,7 @@ app.use(function (req, res, next) {
 app.get("/", (req, res) => {
   //res.json({ code: 200, message: "Working" });
   res.send(`
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>Formulario Imprimir</title>
@@ -86,7 +86,7 @@ app.get("/", (req, res) => {
 
     <button id="imprimirBtn">Imprimir</button>
   </div>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     document
   .getElementById("imprimirBtn")
@@ -97,7 +97,7 @@ app.get("/", (req, res) => {
 	console.log('Valor de HTML:', html);
     console.log('Valor de CSS:', css);
 	
-    const response = await axios.post("http://localhost:3000/generate-pdf", {
+    const response = await axios.post("https://print-service-docker.onrender.com/generate-pdf", {
       html,
       css,
     });
@@ -112,8 +112,7 @@ app.get("/", (req, res) => {
   
 </body>
 </html>
-
-  `)
+`)
 });
 
 app.listen(3000, () => {
