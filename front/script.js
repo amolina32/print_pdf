@@ -1,83 +1,12 @@
+let html = `
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Factura de Servicios de Telefonía</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-  <style>
-    body {
-      padding: 20px;
-    }
-
-    .header {
-      background-color: #337ab7;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .header h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-
-    .customer-info p {
-      margin: 0;
-      color: #555;
-      font-size: 16px;
-    }
-
-    .invoice-details {
-      margin-top: 40px;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .invoice-details div {
-      flex: 1;
-    }
-
-    .invoice-details div:first-child {
-      margin-right: 20px;
-    }
-
-    .invoice-details h3 {
-      margin: 0;
-      color: #333;
-      font-size: 18px;
-    }
-
-    .barcode {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .qr-code {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .table {
-      margin-top: 40px;
-    }
-
-    .total {
-      margin-top: 40px;
-      text-align: right;
-      color: #333;
-      font-weight: bold;
-    }
-
-    .footer {
-      margin-top: 60px;
-      text-align: center;
-      color: #777;
-    }
-
-    .footer p {
-      margin: 0;
-    }
-  </style>
 </head>
+
 <body>
   <div class="container">
     <div class="header">
@@ -109,7 +38,7 @@
     <div class="barcode">
       <svg id="barcode"></svg>
     </div>
-<div id="qrcode"></div>
+    <div id="qrcode"></div>
     <div class="qr-code">
       <div id="qrcode"></div>
     </div>
@@ -152,8 +81,97 @@
   <script src="https://cdn.jsdelivr.net/npm/qrcode-js-package@1.0.4/qrcode.min.js"></script>
   <script>
     JsBarcode("#barcode", "12345");
-	new QRCode(document.getElementById("qrcode"), "https://www.oracle.com/co/application-development/visual-builder-studio/");
+    new QRCode(document.getElementById("qrcode"), "https://www.oracle.com/co/application-development/visual-builder-studio/");
 
   </script>
 </body>
-</html>
+
+</html>`;
+
+let css = `
+body {
+  padding: 20px;
+}
+
+.header {
+  background-color: #337ab7;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.customer-info p {
+  margin: 0;
+  color: #555;
+  font-size: 16px;
+}
+
+.invoice-details {
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.invoice-details div {
+  flex: 1;
+}
+
+.invoice-details div:first-child {
+  margin-right: 20px;
+}
+
+.invoice-details h3 {
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.barcode {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.qr-code {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.table {
+  margin-top: 40px;
+}
+
+.total {
+  margin-top: 40px;
+  text-align: right;
+  color: #333;
+  font-weight: bold;
+}
+
+.footer {
+  margin-top: 60px;
+  text-align: center;
+  color: #777;
+}
+
+.footer p {
+  margin: 0;
+}`;
+document
+  .getElementById("generateBtn")
+  .addEventListener("click", async function () {
+    const response = await axios.post("http://localhost:3000/generate-pdf", {
+      html,
+      css,
+    });
+    console.log({ response });
+
+    const link = document.createElement("a");
+    link.href = "data:application/pdf;base64," + response.data.data.pdf;
+    link.download = "generated.pdf";
+    link.click();
+  });
