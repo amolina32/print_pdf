@@ -1,9 +1,11 @@
 const express = require("express");
 const pdf = require("html-pdf");
+const bodyParser = require("body-parser");
 
 const app = express();
 
-app.use(express.json());
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -97,7 +99,7 @@ app.get("/", (req, res) => {
 	console.log('Valor de HTML:', html);
     console.log('Valor de CSS:', css);
 	
-    const response = await axios.post("https://print-service-docker.onrender.com/generate-pdf", {
+    const response = await axios.post("http://localhost:3000/generate-pdf", {
       html,
       css,
     });
@@ -112,7 +114,7 @@ app.get("/", (req, res) => {
   
 </body>
 </html>
-`)
+`);
 });
 
 app.listen(3000, () => {
