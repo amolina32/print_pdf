@@ -99,7 +99,7 @@ app.get("/", (req, res) => {
 	console.log('Valor de HTML:', html);
     console.log('Valor de CSS:', css);
 	
-    const response = await axios.post("http://localhost:3000/generate-pdf", {
+    const response = await axios.post("https://print-service-docker.onrender.com/generate-pdf", {
       html,
       css,
     });
